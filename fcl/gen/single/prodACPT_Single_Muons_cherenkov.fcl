@@ -1,0 +1,18 @@
+# ACPT single-muon gen + g4 (process MuCSMCGen) with Cherenkov light enabled.
+# CONTROL configuration: nothing else changed.
+#
+# This is the file that makes genfile.root.local (stopmu_g4.root) for the
+# ACPT overlay chain
+#   prodACPT_Single_Muons*.fcl            <- Geant4 runs HERE
+#   acpt_overlay_gen_SimInfoMixer_prod.fcl   copies largeant::MuCSMCGen products
+#   wirecell_detsim_overlay_uboone.fcl       digitises SimPhotons with the
+#                                            patched UBOpticalADCSim
+#   standard_overlay_uboone.fcl              adds MC waveforms to data
+#
+# The mixer copies the SimPhotons collection whole, so the Cherenkov photons
+# (SetInSD = true, real energy) travel with the scintillation photons into
+# detsim with no further change to the chain.
+
+#include "prodACPT_Single_Muons.fcl"
+
+services.LArPropertiesService.EnableCerenkovLight: true

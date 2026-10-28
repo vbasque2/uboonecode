@@ -1,0 +1,42 @@
+# ACPT single-muon gen + g4 (process MuCSMCGen) with Cherenkov light enabled
+# AND three steel finishes. RECOMMENDED production configuration.
+#
+# Same chain note as prodACPT_Single_Muons_cherenkov.fcl: Geant4 runs here and
+# nothing downstream changes.
+#
+# Needs the three-material geometry, built once from the production GDML:
+#   make_dark_gdml.py --name STEEL_CATHODE   -o microboonev12_3steel.gdml \
+#       microboonev12.gdml volCathodePlate
+#   make_dark_gdml.py --name STEEL_FIELDCAGE -o microboonev12_3steel.gdml \
+#       microboonev12_3steel.gdml volFieldCageTubeTop volFieldCageTubeBot \
+#       volFieldCageTubeFront volFieldCageTubeBack
+# and the same two commands on microboonev12_nowires.gdml, because
+# Geometry_service inserts _nowires into the name itself. The file name is a
+# placeholder until the geometry group assigns one.
+#
+# Cathode and tubes: SBND 304 curve, specular (cathode polished per the
+# detector paper, tubes bright in photographs). Everything else: LArSoft
+# default 0.25 / diffuse 0.5, written on the shared 12-point grid.
+
+#include "prodACPT_Single_Muons.fcl"
+
+services.LArPropertiesService.EnableCerenkovLight: true
+
+services.Geometry.GDML:       "microboonev12_3steel.gdml"
+services.AuxDetGeometry.GDML: "microboonev12_3steel.gdml"
+# Geometry.ROOT stays on microboonev12.gdml: channel map unchanged.
+
+services.LArPropertiesService.ReflectiveSurfaceNames:    [ "STEEL_STAINLESS_Fe7Cr2Ni", "STEEL_CATHODE", "STEEL_FIELDCAGE" ]
+
+#                                                          700nm  600   500   440   420   390   350   300   250   230   177   83nm
+services.LArPropertiesService.ReflectiveSurfaceEnergies: [ 1.77, 2.0675, 2.481, 2.819, 2.953, 3.1807, 3.54, 4.135, 4.962, 5.39, 7., 15. ]
+
+services.LArPropertiesService.ReflectiveSurfaceReflectances:
+  [ [ 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25 ],   # vessel, frame, PMT bases
+    [ 0.66, 0.64, 0.62, 0.60, 0.59, 0.57, 0.53, 0.47, 0.39, 0.36, 0.27, 0.25 ],   # cathode
+    [ 0.66, 0.64, 0.62, 0.60, 0.59, 0.57, 0.53, 0.47, 0.39, 0.36, 0.27, 0.25 ] ]  # field-cage tubes
+
+services.LArPropertiesService.ReflectiveSurfaceDiffuseFractions:
+  [ [ 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5 ],
+    [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+    [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ] ]
