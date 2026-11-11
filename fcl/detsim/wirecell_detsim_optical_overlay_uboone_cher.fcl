@@ -1,0 +1,7 @@
+#include "wirecell_detsim_optical_overlay_uboone.fcl"
+
+# Reco2 optical detsim, scintillation + Cherenkov (visible QE 0.09 from the
+# Cherenkov build). The LY-scaling seed is fixed to the same value as in
+# wirecell_detsim_optical_overlay_uboone_scintonly.fcl so that the two reco2
+# streams share one scintillation realisation and differ only by Cherenkov.
+physics.producers.lyscaling.Seed: 12345
