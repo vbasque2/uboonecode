@@ -4,4 +4,4 @@
 # Cherenkov build). The LY-scaling seed is fixed to the same value as in
 # wirecell_detsim_optical_overlay_uboone_scintonly.fcl so that the two reco2
 # streams share one scintillation realisation and differ only by Cherenkov.
-physics.producers.lyscaling.Seed: 12345
+#include "reco2_lyseed.fcl"   # written per job by init_reco2_lyseed.sh

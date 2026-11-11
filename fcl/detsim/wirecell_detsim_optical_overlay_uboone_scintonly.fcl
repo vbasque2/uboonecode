@@ -74,4 +74,4 @@ services.UBOpticalChConfig.QESpec: [ # QE values per channel and then per each o
     [0.0093, 0.0093, 0.00, 0.00], [0.0093, 0.0093, 0.00, 0.00], [0.0093, 0.0093, 0.00, 0.00]  # channels 300-335
   ]
 
-physics.producers.lyscaling.Seed: 12345
+#include "reco2_lyseed.fcl"   # written per job by init_reco2_lyseed.sh
